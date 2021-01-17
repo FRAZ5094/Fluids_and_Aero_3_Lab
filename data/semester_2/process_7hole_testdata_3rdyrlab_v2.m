@@ -65,6 +65,8 @@ K_beta = [-0.6498
 
 %load in experimental data
 
+fname="alpha15fine_0.dat";
+
 load(fname,'-mat');
 
 %extract 7 hole probe data...
