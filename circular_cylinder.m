@@ -1,3 +1,5 @@
+%1.1 Surface Pressure
+
 clear
 clc
 
@@ -10,6 +12,7 @@ file_list=dir("data/semester_1/Surface*.txt");
  %calculate C_p using potential flow 
  potential_flow_C_p=1-4*(sin(deg2rad(theta_values))).^2;
 
+%calculate and plot all C_p data... 
 
 %loop over found files
 for i=1:1:length(file_list)
@@ -26,8 +29,8 @@ for i=1:1:length(file_list)
     dynamic_pressure=data.WT_Dynamic(2:end,:);
 
     %convert to floats
-    surface_pressure=str2num(surface_pressure);
-    dynamic_pressure=str2num(dynamic_pressure);
+    surface_pressure=str2num(surface_pressure)';
+    dynamic_pressure=str2num(dynamic_pressure)';
 
 
    
@@ -55,8 +58,29 @@ for i=1:1:length(file_list)
     legend({'Experiment','Potential flow'})
     title(strrep(file_list(i).name,"_"," "));
     
+    %Calculate lift and drag coefficients from C_p and potiential flow...
+    
+    %Coefficient of Dynamic pressure
+    C_D_p_values=C_p_values.*sin(deg2rad(theta_values));
+    C_D_p=0.5*trapz(theta_values,C_D_p_values);
+    
+    %Coefficient of Dynamic pressure
+    C_L_values=C_p_values.*cos(deg2rad(theta_values));
+    C_L=-0.5*trapz(theta_values,C_L_values);
+    
+    fprintf("%s \n C_D_p=%f\n C_L=%f\n",file_list(i).name,C_D_p,C_L);
+    
 end
     
+
+
+
+
+
+
+
+
+
 
 
 
