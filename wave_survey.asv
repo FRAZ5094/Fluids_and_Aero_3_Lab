@@ -16,16 +16,13 @@ for i=1:1:length(file_list)
 
     %change variable names and remove first element in array
     wake_dynamic_pressure=data.Wake_Dynamic(2:end,:);
-    dynamic_pressure=data.WT_Dynamic(2:end,:);
+    dynamic_pressure=data.data.WT_Dynamic(2:end,:);
 
-    %convert from str to float
-    wake_dynamic_pressure=str2num(wake_dynamic_pressure)';
+    
+    wave_dynamic_pressure=str2num(wake_dynamic_pressure)';
     dynamic_pressure=str2num(dynamic_pressure)';
     
-    %convert V to Pa
-    wake_dynamic_pressure=wake_dynamic_pressure./0.01969;
-    wake_dynamic_pressure=wake_dynamic_pressure.*9.80665;
     
-    dynamic_pressure=dynamic_pressure./0.0255;
-    dynamic_pressure=dynamic_pressure.*9.80665;
+   
+    
 end
