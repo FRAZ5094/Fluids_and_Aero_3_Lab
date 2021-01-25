@@ -1,0 +1,25 @@
+%2.2 Delta wing
+
+clc 
+clear
+
+data=readtable("data/semester_2(Delta_wing)/DeltaWing2020.csv");
+
+data=sort
+
+%calculate lift using F_z and angle of attack
+lift=data.Fz_L_.*cos(deg2rad(data.Incidence));
+
+%calcualte drag using F_x and angle of attack
+drag=data.Fx_D_.*cos(deg2rad(data.Incidence));
+
+to_sort=[data.Incidence,lift,drag];
+
+sorted=sort(to_sort);
+
+%{
+figure(1);
+plot(data.Incidence,lift);
+figure(2);
+plot(data.Incidence,drag);
+%}

@@ -4,7 +4,7 @@ clear
 clc
 
 %find all the files associated with the surface pressure
-file_list=dir("data/semester_1/Surface*.txt");
+file_list=dir("data/semester_1(wave_survey)/Surface*.txt");
 
  %generate tapping theta values (48 tappings over 360 degrees
  theta_values=linspace(0,360,48);
@@ -18,7 +18,7 @@ file_list=dir("data/semester_1/Surface*.txt");
 for i=1:1:length(file_list)
     
     %create absolute file path from file name and directory
-    file_path=append("data/semester_1/"+file_list(i).name);
+    file_path=append("data/semester_1(wave_survey)/"+file_list(i).name);
     
     
     %read in data from file 
