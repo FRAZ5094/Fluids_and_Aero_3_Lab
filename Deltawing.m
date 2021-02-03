@@ -11,9 +11,6 @@ data_off=data(1:23,:);
 %data when wind tunnel at 20m/s
 data_on=data(24:end,:);
 
-%data=sortrows(data,"Incidence");
-
-
 %calculate lift using F_z and angle of attack
 lift_on=data_on.Fz_L_.*cos(deg2rad(data_on.Incidence));
 lift_off=data_off.Fz_L_.*cos(deg2rad(data_off.Incidence));
@@ -29,7 +26,7 @@ drag=drag_on-drag_off;
 figure(1);
 plot(data_on.Incidence,lift);
 legend("lift (N)","Location","southeast");
-xlim([0,34]);\
+xlim([0,34]);
 figure(2);
 plot(data_on.Incidence,drag);
 ylim([0,max(drag)*1.2]);
