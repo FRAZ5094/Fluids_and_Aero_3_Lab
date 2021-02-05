@@ -20,7 +20,7 @@ for i=1:1:length(file_list)
     %create absolute file path from file name and directory
     file_path=append("data/semester_1(wave_survey)/"+file_list(i).name);
     
-    
+    disp(file_list(i).name);
     %read in data from file 
     data=tdfread(file_path);
 
@@ -45,8 +45,43 @@ for i=1:1:length(file_list)
     %calculate values for C_p
     C_p_values=(surface_pressure)./(dynamic_pressure);
     
-    potential_flow_C_p=1-4*(sin(deg2rad(theta_values))).^2;
+    potential_flow_C_p=1-4*(sind(theta_values)).^2;
     
+    pressure=data.Barometric_Pressure(2:end,:);
+    T=data.Temperature(2:end,:);
+    
+    pressure=str2num(pressure)';
+    T=str2num(T)';
+    
+    pressure=(pressure./0.0222222)+600;
+    pressure=pressure.*133.322;
+    
+    T=T/0.1;
+    T_average=mean(T);
+    T=T+273;
+    
+    
+    R=287;
+    
+    density=(pressure)./(R.*T);
+    
+    density_average=mean(density);
+    
+    U=mean(sqrt((2*dynamic_pressure)./(density_average)));
+    
+    d=0.16;
+    
+    if (i==1 || i==2)
+        mu=1.802*10^-5;
+    else
+        mu=1.849*10^-5;
+    
+    end
+    Re=(density_average*U*d/mu);
+    
+    
+    
+    %{
     figure(i)
     plot(theta_values,C_p_values);
     hold on
@@ -55,20 +90,30 @@ for i=1:1:length(file_list)
     xlim([0,360]);
     xlabel("tapping position (degrees)");
     ylabel("pressure coefficient C_p");
-    legend({'Experiment','Potential flow'})
-    title(strrep(file_list(i).name,"_"," "));
-    
+    legend({'Experiment','Potential flow'},"Location","northeast")
+    f_name=strrep(file_list(i).name,"_"," ");
+    Re_format=sprintf("(Re=%0.2E)",Re);
+    title(f_name+" "+Re_format);
+    %}
     %Calculate lift and drag coefficients from C_p and potiential flow...
     
-    %Coefficient of Dynamic pressure
-    C_D_p_values=C_p_values.*sin(deg2rad(theta_values));
+    %Coefficient of Dynamic pressure experiment
+    C_D_p_values=C_p_values.*cosd(theta_values);
     C_D_p=0.5*trapz(theta_values,C_D_p_values);
     
+    %Coefficient of Dynamic pressure potential
+    potential_flow_C_D_p_values=potential_flow_C_p.*cosd(theta_values);
+    potential_flow_C_D_p=0.5*trapz(theta_values,potential_flow_C_D_p_values);
+    
     %Coefficient of Dynamic pressure
-    C_L_values=C_p_values.*cos(deg2rad(theta_values));
+    C_L_values=C_p_values.*sind(theta_values);
     C_L=-0.5*trapz(theta_values,C_L_values);
     
-    fprintf("%s \n C_D_p=%f\n C_L=%f\n",file_list(i).name,C_D_p,C_L);
+    %Coefficient of Dynamic pressure potential
+    potential_flow_C_L_values=potential_flow_C_p.*sind(theta_values);
+    potential_flow_C_L=-0.5*trapz(theta_values,potential_flow_C_L_values);
+    
+    fprintf("%s \n Experiment:\n C_D_p=%f\n C_L=%f\n Potential: C_D_p=%f\n C_L=%f\n",file_list(i).name,C_D_p,C_L,potential_flow_C_D_p,potential_flow_C_L);
     
 end
     

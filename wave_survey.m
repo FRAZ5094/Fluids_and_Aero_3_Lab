@@ -13,7 +13,7 @@ for i=1:1:length(file_list)
     
     %create absolute file path from file name and directory
     file_path=append("data/semester_1(wave_survey)/"+file_list(i).name);
-
+    disp(file_list(i).name);
     data=tdfread(file_path);
 
     %change variable names and remove first element in array
@@ -49,18 +49,56 @@ for i=1:1:length(file_list)
     
     wake_velocity=sqrt((wake_dynamic_pressure)./(dynamic_pressure));
     
-    wake_momentum_deficit_parameter=wake_velocity.*(1-wake_velocity);
+    adjusted_wake_velocity=sqrt((wake_dynamic_pressure+wake_static_pressure-static_pressure)./(dynamic_pressure));
     
+    %wake_momentum_deficit_parameter=wake_velocity.*(1-wake_velocity);
+    
+    %Reynolds number 
+    pressure=data.Barometric_Pressure(2:end,:);
+    T=data.Temperature(2:end,:);
+    
+    pressure=str2num(pressure)';
+    T=str2num(T)';
+    
+    pressure=(pressure./0.0222222)+600;
+    pressure=pressure.*133.322;
+    
+    T=T/0.1;
+    T_average=mean(T);
+    T=T+273;
+    
+    
+    R=287;
+    
+    density=(pressure)./(R.*T);
+    
+    density_average=mean(density);
+    
+    U=mean(sqrt((2*dynamic_pressure)./(density_average)));
+    
+    d=0.16;
+    
+    if (i==1 || i==2)
+        mu=1.802*10^-5;
+    else
+        mu=1.849*10^-5;
+    
+    end
+    Re=(density_average*U*d/mu)
+    
+    %{
     figure(i)
     plot(position,wake_velocity);
-    %hold on
-    %plot(position,wake_momentum_deficit_parameter)
-    %hold off
+    hold on
+    plot(position,adjusted_wake_velocity)
+    hold off
     xlim([-400,400]);
     xlabel("wake position (mm)");
-    ylabel("wave velocity u/U");
-    legend({"measured u","adusted wake velocity u'"});
-    title(strrep(file_list(i).name,"_"," "));
-    
+    ylabel("wake velocity u/U");
+    legend({"measured u","adusted wake velocity u'"},"Location","southeast");
+    f_name=strrep(file_list(i).name,"_"," ");
+    Re_format=sprintf("(Re=%0.2E)",Re);
+    title(f_name+" "+Re_format);
+    %}
     
 end
