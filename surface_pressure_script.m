@@ -97,6 +97,8 @@ for i=1:1:length(file_list)
     %}
     %Calculate lift and drag coefficients from C_p and potiential flow...
     
+    clear C_D_p_values C_D_p potential_flow_C_D_p_values potential_flow_C_D_p C_L_values C_L potential_flow_C_L_values potential_flow_C_L
+    
     %Coefficient of pressure drag experiment
     C_D_p_values=C_p_values.*cosd(theta_values);
     C_D_p=0.5*trapz(deg2rad(theta_values),C_D_p_values);

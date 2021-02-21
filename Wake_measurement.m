@@ -49,7 +49,7 @@ y_vec=y(:,1);
 x_vec=x(1,:);
 
 
-circulation=-trapz(x_vec,(trapz(y_vec,vorticityu)));
+circulation=-trapz(x_vec,trapz(y_vec,vorticityu));
 
 %circulation_from_velocity=-(trapz(reshape(x,[],1),reshape(v,[],1))-trapz(reshape(y,[],1),reshape(w,[],1)));
 
@@ -71,6 +71,7 @@ xlabel("prope horizontal position (mm)");
 ylabel("probe vertical position (mm)");
 colorbar;
 %}
+
 %{
 figure(5);
 contourf(-y,x,pL);
@@ -79,8 +80,3 @@ xlabel("prope horizontal position (mm)");
 ylabel("probe vertical position (mm)");
 colorbar;
 %}
-
-
-
-
-

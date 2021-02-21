@@ -1,0 +1,17 @@
+general presentation mistakes/nitpicking
+comment on asymmetry p4:
+unstableness of wake
+C_D_P value for Super-critical too high p5:
+
+C_D value for sub-critical wrong p7:
+
+explaination of why C_D goes down p8:
+trying to fit explaination to results
+M_ac is too low p14:
+
+Circulation is too high p16:
+
+Explaination of leading edge separartion is bad p16:
+"curled up"
+Bad explaination of pressure:
+supposed to say "severe pressure drag", Caleb wrote this, what does he mean?
