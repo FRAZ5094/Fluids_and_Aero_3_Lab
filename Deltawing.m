@@ -64,7 +64,32 @@ density=(P)./(R.*T);
 density_average=mean(density);
 
 air_velocity=data_on.WindSpeed_m_s_;
-air_velocity_average=mean(air_velocity);
+air_velocity_aver
+clear
+clc
+
+%find all the files associated with the wave survey
+file_list=dir("data/semester_1(wave_survey)/WakeSurvey*.txt");
+
+for i=1:1:length(file_list)
+    
+    
+    %create absolute file path from file name and directory
+    file_path=append("data/semester_1(wave_survey)/"+file_list(i).name);
+    disp(file_list(i).name);
+    data=tdfread(file_path);
+
+    %change variable names and remove first element in array
+    position=data.Position_mm(2:end,:);
+    wake_dynamic_pressure=data.Wake_Dynamic(2:end,:); %q_wake
+    dynamic_pressure=data.WT_Dynamic(2:end,:); %q_infinity
+    wake_static_pressure=data.Wake_Static_relative_to_atmosphere(2:end,:); %p_wake-p_ambient
+    static_pressure=data.WT_Static_relative_to_atmosphere(2:end,:); %p_infinity-p_ambient
+    
+    %convert from str to float
+    position=str2num(position)';
+    wake_dynamic_pressure=str2num(wake_dynamic_pressure)';
+    dynamic_pressure=str2num(dynamic_pressure)';age=mean(air_velocity);
 
 mu=1.802*10^-5;
 

@@ -89,7 +89,7 @@ for i=1:1:length(file_list)
     f_name=strrep(file_list(i).name,"_"," ");
     Re_format=sprintf("(Re=%0.2E)",Re);
     
-    %{
+  
     figure(i)
     plot(position,wake_velocity);
     hold on
@@ -100,7 +100,7 @@ for i=1:1:length(file_list)
     xlabel("wake position (mm)");
     ylabel("wake velocity u/U");
     legend({"measured u","adusted wake velocity u'"},"Location","southeast");
-    %}
+    
     title(f_name+" "+Re_format);
     
     
